@@ -24,8 +24,13 @@ services:
       DB_USERNAME: ${DB_USERNAME:-unishare}
       DB_PASSWORD: ${DB_PASSWORD:-unishare}
       JAVA_OPTS: ${JAVA_OPTS:-}
+      UPLOADS_DIR: /app/uploads
+      ZUINCONSUL_URL: ${ZUINCONSUL_URL:-}
+      ZUINCONSUL_TOKEN: ${ZUINCONSUL_TOKEN:-}
     ports:
       - "127.0.0.1:8080:8080"
+    volumes:
+      - uploads_data:/app/uploads
     depends_on:
       db:
         condition: service_healthy
@@ -48,3 +53,4 @@ services:
 
 volumes:
   db_data:
+  uploads_data:
