@@ -1,0 +1,11 @@
+ID Nombre del Requerimiento Descripción Detallada Criterios de Aceptación
+RF-01 Publicación de Recursos Académicos El sistema debe permitir a los estudiantes registrar materiales académicos (libros, equipos tecnológicos, insumos de laboratorio u otros) en modalidad de donación o préstamo gratuito mediante un formulario web. • El formulario exige el ingreso obligatorio de título, categoría, descripción y correo/contacto universitario.
+• Al enviar, el sistema persiste el recurso asignándole un identificador único y la fecha de creación.
+• La vista principal se actualiza automáticamente reflejando el nuevo registro.
+RF-02 Validación de Integridad de Datos El backend debe validar que toda solicitud de creación contenga los campos obligatorios completos y dentro de las categorías permitidas antes de invocar el caso de uso de dominio. • Si falta algún campo obligatorio (title, category, description, contact), el endpoint POST /api/recursos rechaza la petición retornando un código HTTP 400 Bad Request.
+RF-03 Visualización del Catálogo Solidario El sistema debe consultar y desplegar en la interfaz principal el listado de todos los recursos académicos disponibles, ordenados desde el más reciente al más antiguo. • Al cargar la página, se realiza una petición GET /api/recursos.
+• Cada recurso se muestra en una tarjeta con su categoría, fecha de publicación, título, descripción y datos de contacto.
+• Si no existen registros, muestra un mensaje informativo al usuario.
+RF-04 Filtrado Dinámico por Categoría El sistema debe permitir a los estudiantes filtrar en tiempo real los recursos publicados según su clasificación académica (Todos, Libros, Tecnología, Laboratorio, Otro). • Al seleccionar una categoría, la cuadrícula actualiza instantáneamente los elementos visibles sin recargar la página.
+• El botón de la categoría activa se resalta visualmente.
+RF-05 Solicitud Directa de Contacto El sistema debe facilitar la comunicación directa entre el estudiante solicitante y el estudiante donante/prestamista a través de su contacto universitario registrado. •
