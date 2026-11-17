@@ -1,16 +1,16 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
-import { getPersonaPorCedula, publicarProducto } from '../../../lib/api'
+import { getCategorias, getPersonaPorCedula, publicarProducto } from '../../../lib/api'
 import type { Categoria } from '../../../lib/api'
 
 interface Props {
-  categorias: Categoria[]
   onClose: () => void
   onPublicado: () => void
   onRegistrarse: (cedula: string) => void
 }
 
-export default function PublicarProductoModal({ categorias, onClose, onPublicado, onRegistrarse }: Props) {
+export default function PublicarProductoModal({ onClose, onPublicado, onRegistrarse }: Props) {
+  const [categorias, setCategorias] = useState<Categoria[]>([])
   const [titulo, setTitulo] = useState('')
   const [descripcion, setDescripcion] = useState('')
   const [modalidad, setModalidad] = useState('DONACION')
@@ -23,6 +23,10 @@ export default function PublicarProductoModal({ categorias, onClose, onPublicado
   const [sinCuenta, setSinCuenta] = useState(false)
   const [exito, setExito] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    getCategorias().then(setCategorias).catch(() => setCategorias([]))
+  }, [])
 
   function seleccionarImagen(file: File | undefined) {
     if (!file) return

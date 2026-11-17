@@ -2,9 +2,10 @@ import type { Producto } from '../../../lib/api'
 
 interface Props {
   producto: Producto
+  onSolicitar?: (producto: Producto) => void
 }
 
-export default function ProductoCard({ producto }: Props) {
+export default function ProductoCard({ producto, onSolicitar }: Props) {
   const iniciales = producto.personaNombre
     .split(' ')
     .map((p) => p[0])
@@ -42,12 +43,11 @@ export default function ProductoCard({ producto }: Props) {
           </div>
         </div>
 
-        <button
-          className="btn btn-outline btn-block"
-          onClick={() => window.alert(`Solicitar "${producto.titulo}" (próximamente)`)}
-        >
-          Solicitar
-        </button>
+        {onSolicitar && (
+          <button className="btn btn-outline btn-block" onClick={() => onSolicitar(producto)}>
+            Solicitar
+          </button>
+        )}
       </div>
     </article>
   )

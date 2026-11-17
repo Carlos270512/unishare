@@ -80,3 +80,88 @@ export async function verificarCedula(cedula: string): Promise<DatosCedula> {
     body: JSON.stringify({ cedula }),
   }))
 }
+
+export interface Sesion {
+  token: string
+  usuarioId: number
+  personaId: number
+  nombreCompleto: string
+  email: string
+  rol: string
+}
+
+export async function login(email: string, password: string): Promise<Sesion> {
+  return json(await fetch(`${BASE}/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password }),
+  }))
+}
+
+export interface UsuarioInfo {
+  id: number
+  personaId: number
+  cedula: string
+  nombreCompleto: string
+  email: string
+  rol: string
+  activo: boolean
+  creadoEn: string
+}
+
+export async function getUsuarios(): Promise<UsuarioInfo[]> {
+  return json(await fetch(`${BASE}/usuarios`))
+}
+
+export interface Solicitud {
+  id: number
+  productoId: number
+  productoTitulo: string
+  modalidad: string
+  solicitantePersonaId: number
+  solicitanteNombre: string
+  solicitanteEmail: string
+  donanteNombre: string
+  donanteEmail: string
+  mensaje: string
+  cursoAsignatura: string | null
+  tipoNecesidad: string
+  puntoEncuentro: string | null
+  fechaNecesidad: string | null
+  estado: string
+  creadoEn: string
+  respondidaEn: string | null
+}
+
+export interface SolicitarBody {
+  mensaje: string
+  cursoAsignatura: string
+  tipoNecesidad: string
+  puntoEncuentro: string
+  fechaNecesidad: string | null
+  solicitantePersonaId: number
+}
+
+export async function solicitarProducto(productoId: number, body: SolicitarBody): Promise<Solicitud> {
+  return json(await fetch(`${BASE}/productos/${productoId}/solicitudes`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  }))
+}
+
+export async function getSolicitudesRecibidas(personaId: number): Promise<Solicitud[]> {
+  return json(await fetch(`${BASE}/personas/${personaId}/solicitudes-recibidas`))
+}
+
+export async function getSolicitudesEnviadas(personaId: number): Promise<Solicitud[]> {
+  return json(await fetch(`${BASE}/personas/${personaId}/solicitudes-enviadas`))
+}
+
+export async function responderSolicitud(id: number, estado: string): Promise<Solicitud> {
+  return json(await fetch(`${BASE}/solicitudes/${id}/responder`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ estado }),
+  }))
+}
